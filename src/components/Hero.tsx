@@ -2,26 +2,40 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { CircularProgressCard, BudgetCard, TrafficCard } from '@/components/DashboardCard';
 
 const Hero = () => {
-  const [activePercentage, setActivePercentage] = useState(25);
+  const [email, setEmail] = useState('');
   
-  const percentageItems = [
-    { value: 25, label: "Email" },
-    { value: 50, label: "Social" },
-    { value: 75, label: "SEO" },
-    { value: 100, label: "PPC" }
+  const budgetData = [
+    { name: 'Jan', value: 30000, previous: 25000 },
+    { name: 'Feb', value: 35000, previous: 28000 },
+    { name: 'Mar', value: 33000, previous: 30000 },
+    { name: 'Apr', value: 32000, previous: 29000 },
+    { name: 'May', value: 38000, previous: 25000 },
+    { name: 'Jun', value: 42000, previous: 32000 },
   ];
 
-  const handleNext = () => {
-    const currentIndex = percentageItems.findIndex(item => item.value === activePercentage);
-    const nextIndex = (currentIndex + 1) % percentageItems.length;
-    setActivePercentage(percentageItems[nextIndex].value);
+  const trafficData = [
+    { name: 'Jan', leads: 20, traffic: 0 },
+    { name: 'Feb', leads: 30, traffic: 0 },
+    { name: 'Mar', leads: 22, traffic: 0 },
+    { name: 'Apr', leads: 28, traffic: 0 },
+    { name: 'May', leads: 24, traffic: 0 },
+    { name: 'Jun', leads: 0, traffic: 30 },
+    { name: 'Jul', leads: 0, traffic: 40 },
+    { name: 'Aug', leads: 0, traffic: 34 },
+  ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Email submitted:', email);
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-10">
-      <div className="absolute inset-0 bg-gradient-to-b from-chaotic-blue/10 to-transparent z-0"></div>
+    <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-10 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/50 via-chaotic-blue/20 to-transparent z-0"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -34,48 +48,45 @@ const Hero = () => {
               It's your turn to shine when we put the spotlight on your brand. We help get the attention and revenues your business deserves in the digital world.
             </p>
             
-            <div className="pt-4">
-              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-chaotic-blue transition-all duration-500"
-                  style={{ width: `${activePercentage}%` }}
-                ></div>
-              </div>
-              
-              <div className="mt-2 flex justify-between items-center">
-                {percentageItems.map((item) => (
-                  <div 
-                    key={item.value}
-                    className={`text-sm font-kanit ${activePercentage >= item.value ? 'text-chaotic-blue' : 'text-gray-400'}`}
-                  >
-                    {item.value}% {item.label}
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <Button 
-              onClick={handleNext}
-              className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit"
-            >
-              NEXT <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <form onSubmit={handleSubmit} className="pt-4 flex flex-col sm:flex-row gap-3">
+              <Input
+                type="email" 
+                placeholder="Email" 
+                className="rounded-none flex-1"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <Button 
+                type="submit"
+                className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit"
+              >
+                NEXT <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </form>
           </div>
           
-          <div className="relative h-[400px] md:h-[500px] rounded-md overflow-hidden animate-fade-in">
-            <div className="absolute inset-0 bg-chaotic-blue/20 z-10 backdrop-blur-sm"></div>
-            <div className="absolute inset-0 bg-gradient-to-tr from-chaotic-blue/40 to-transparent z-20"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              alt="Marketing Strategy" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute bottom-8 left-8 right-8 z-30">
-              <div className="bg-white p-6 rounded-sm shadow-lg">
-                <h3 className="text-xl font-syne font-bold mb-2">Results-Driven Marketing</h3>
-                <p className="text-sm font-kanit text-gray-700">We combine data insights with creative strategies to deliver measurable business growth.</p>
-              </div>
+          <div className="relative flex flex-col gap-4 animate-fade-in">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <BudgetCard 
+                amount={42600} 
+                budget={55000} 
+                data={budgetData} 
+                className="transform hover:scale-105 transition-transform duration-300"
+              />
+              <CircularProgressCard 
+                title="Facebook Marketing Campaign" 
+                value={690} 
+                max={1000} 
+                className="transform hover:scale-105 transition-transform duration-300"
+              />
             </div>
+            <TrafficCard 
+              title="Generated Traffic & Leads" 
+              data={trafficData} 
+              percentage={61} 
+              className="transform hover:scale-105 transition-transform duration-300"
+            />
           </div>
         </div>
       </div>

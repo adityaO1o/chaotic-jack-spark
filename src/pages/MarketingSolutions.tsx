@@ -2,43 +2,61 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Mail, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const MarketingSolutions = () => {
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Submitted:', { email, phone });
+  };
+
   const services = [
     {
       title: "Paid Search Marketing",
-      description: "Tailored ad campaigns to drive measurable ROI and meet your specific business goals."
+      description: "Tailored ad campaigns to drive measurable ROI and meet your specific business goals.",
+      icon: "💰"
     },
     {
       title: "Search Engine Optimization",
-      description: "Stay at the top of search results, attract new customers, and re-engage loyal ones."
+      description: "Stay at the top of search results, attract new customers, and re-engage loyal ones.",
+      icon: "🔍"
     },
     {
       title: "Email Marketing",
-      description: "Reach your audience directly with highly personalized email campaigns."
+      description: "Reach your audience directly with highly personalized email campaigns.",
+      icon: "📧"
     },
     {
       title: "Conversion Rate Optimization",
-      description: "Maximize the value of every website visit through targeted improvements and A/B testing."
+      description: "Maximize the value of every website visit through targeted improvements and A/B testing.",
+      icon: "📈"
     },
     {
       title: "Social Media Marketing",
-      description: "Build brand awareness and engage your audience through strategic content and management."
+      description: "Build brand awareness and engage your audience through strategic content and management.",
+      icon: "📱"
     },
     {
       title: "Google Shopping",
-      description: "Perfect for eCommerce brands — increase visibility and sales through smart product listings."
+      description: "Perfect for eCommerce brands — increase visibility and sales through smart product listings.",
+      icon: "🛒"
     },
     {
       title: "Influencer Marketing",
-      description: "Leverage our curated network of influencers to amplify your brand message."
+      description: "Leverage our curated network of influencers to amplify your brand message.",
+      icon: "🌟"
     },
     {
       title: "Amazon Marketing",
-      description: "Stand out on the world's largest eCommerce platform with optimized listings and keyword strategies."
+      description: "Stand out on the world's largest eCommerce platform with optimized listings and keyword strategies.",
+      icon: "📦"
     }
   ];
   
@@ -63,11 +81,29 @@ const MarketingSolutions = () => {
               <p className="text-lg font-kanit text-gray-700 mb-8">
                 Chaotic Jack sits at the intersection of creativity and performance. Our team combines innovative thinking with paid media expertise to deliver powerful results and real ROI.
               </p>
-              <Button 
-                className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit"
-              >
-                GET A FREE AUDIT
-              </Button>
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                <Input
+                  type="email" 
+                  placeholder="Email" 
+                  className="rounded-none flex-1"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Input
+                  type="tel" 
+                  placeholder="Phone" 
+                  className="rounded-none flex-1"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <Button 
+                  type="submit"
+                  className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit"
+                >
+                  GET A FREE AUDIT
+                </Button>
+              </form>
             </div>
             <div className="relative h-[400px] rounded-md overflow-hidden shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-tr from-chaotic-blue/40 to-transparent z-20"></div>
@@ -98,18 +134,24 @@ const MarketingSolutions = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {services.map((service, index) => (
-                  <Card key={index} className="border-none shadow-md hover:shadow-xl transition-shadow duration-300">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4">
-                        <div className="mt-1 text-chaotic-blue">
-                          <Check size={20} />
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-syne font-bold mb-2">{service.title}</h4>
-                          <p className="text-gray-700 font-kanit mb-4">{service.description}</p>
-                          <Button variant="link" className="p-0 h-auto font-kanit text-chaotic-blue hover:text-chaotic-blue/80">
-                            LEARN MORE <ArrowRight className="ml-1 h-3 w-3" />
-                          </Button>
+                  <Card key={index} className="border-none shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
+                    <CardContent className="p-0">
+                      <div className="relative">
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-chaotic-blue"></div>
+                        <div className="absolute top-0 left-0 w-0 h-full bg-yellow-400 transition-all duration-300 group-hover:w-1.5"></div>
+                        <div className="p-6 pl-8">
+                          <div className="flex items-start gap-4">
+                            <div className="mt-1 text-2xl">
+                              {service.icon}
+                            </div>
+                            <div>
+                              <h4 className="text-xl font-syne font-bold mb-2">{service.title}</h4>
+                              <p className="text-gray-700 font-kanit mb-4">{service.description}</p>
+                              <Button variant="link" className="p-0 h-auto font-kanit text-chaotic-blue hover:text-chaotic-blue/80">
+                                LEARN MORE <ArrowRight className="ml-1 h-3 w-3" />
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
@@ -135,18 +177,38 @@ const MarketingSolutions = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               {stats.map((stat, index) => (
-                <div key={index} className="bg-white p-6 rounded-sm shadow-md text-center">
+                <div key={index} className="bg-white p-6 rounded-sm shadow-md text-center relative overflow-hidden group">
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200"></div>
+                  <div className="absolute bottom-0 left-0 w-0 h-1 bg-chaotic-blue transition-all duration-500 group-hover:w-full"></div>
                   <p className="font-syne font-bold text-lg">{stat}</p>
                 </div>
               ))}
             </div>
             
             <div className="text-center">
-              <Button 
-                className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit"
-              >
-                GET A FREE AUDIT
-              </Button>
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row justify-center gap-3 max-w-2xl mx-auto">
+                <Input
+                  type="email" 
+                  placeholder="Email" 
+                  className="rounded-none"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Input
+                  type="tel" 
+                  placeholder="Phone" 
+                  className="rounded-none"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <Button 
+                  type="submit"
+                  className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit"
+                >
+                  GET A FREE AUDIT
+                </Button>
+              </form>
               <p className="mt-4 text-sm font-kanit text-gray-700">A Partner, Not Just a Vendor</p>
             </div>
           </div>
