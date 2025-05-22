@@ -4,31 +4,40 @@ import Hero from "@/components/Hero";
 import PartnerSection from "@/components/PartnerSection";
 import WhatWeDoSection from "@/components/WhatWeDoSection";
 import AboutSection from "@/components/AboutSection";
-import TechAuditSection from "@/components/TechAuditSection";
+import TechnologySection from "@/components/TechnologySection";
+import ServicesSection from "@/components/ServicesSection";
 import ResultsSection from "@/components/ResultsSection";
 import TeamSection from "@/components/TeamSection";
 import BlogSection from "@/components/BlogSection";
 import ConsultationSection from "@/components/ConsultationSection";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import { motion } from 'framer-motion';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
       
-      <main>
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
         <Hero />
         <PartnerSection />
         <WhatWeDoSection />
+        <ServicesSection />
         <AboutSection />
-        <TechAuditSection />
+        <TechnologySection />
         <ResultsSection />
         <TeamSection />
         <BlogSection />
         <ConsultationSection />
-      </main>
+      </motion.main>
       
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

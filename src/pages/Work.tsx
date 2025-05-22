@@ -3,14 +3,15 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import PartnerSection from "@/components/PartnerSection";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { ChartContainer } from "@/components/ui/chart";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, LineChart, Line } from "recharts";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import EnhancedPerformanceMetrics from "@/components/EnhancedPerformanceMetrics";
+import { ProjectCard } from "@/components/EnhancedCards";
+import { motion } from "framer-motion";
 
 const Work = () => {
   const [email, setEmail] = useState('');
@@ -78,72 +79,87 @@ const Work = () => {
     },
   ];
 
-  const metricData = [
-    { month: 'Jan', roas: 3.2, budget: 12000, leads: 80 },
-    { month: 'Feb', roas: 4.1, budget: 15000, leads: 120 },
-    { month: 'Mar', roas: 5.5, budget: 18000, leads: 150 },
-    { month: 'Apr', roas: 5.2, budget: 20000, leads: 140 },
-    { month: 'May', roas: 6.7, budget: 22000, leads: 190 },
-    { month: 'Jun', roas: 5.9, budget: 20000, leads: 170 },
-  ];
-
-  const metrics = [
-    "6.7x Avg. ROAS across SEO, PPC & Social",
-    "100+ global clients served",
-    "₹15 Cr+ managed budgets",
-    "282,000+ leads generated"
-  ];
-
   const testimonials = [
     {
       quote: "Chaotic Jack helped us scale fast, optimize smart, and grow consistently. Their team is responsive and truly understands digital marketing.",
       name: "Sarah Thompson",
       position: "CMO, Retail Brand",
       company: "FashionVerse",
-      stars: 5
+      stars: 5,
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
     },
     {
       quote: "Every campaign has been ROI-focused. We're seeing tangible results month after month with measurable growth in our key metrics.",
       name: "John Miller",
       position: "Marketing Director",
       company: "TechSolutions Inc.",
-      stars: 5
+      stars: 5,
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
     },
     {
       quote: "Their ability to adapt to changing market conditions and pivot strategies quickly has been invaluable to our business success.",
       name: "Michael Chang",
       position: "Founder",
       company: "GrowthStartup",
-      stars: 5
+      stars: 5,
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
     },
     {
       quote: "What sets Chaotic Jack apart is their combination of analytical prowess and creative thinking. Truly a rare find in the agency world.",
       name: "Priya Sharma",
       position: "Digital Marketing Lead",
       company: "InnovateNow",
-      stars: 5
+      stars: 5,
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
     }
   ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1,
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
       
       <main className="pt-28 pb-16">
-        <section className="container mx-auto px-4 md:px-6 mb-16">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold font-syne mb-6">
-              Success Stories
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-syne font-medium mb-6">
-              Delivering Real, Measurable Results
-            </h2>
-            <p className="text-lg font-kanit text-gray-700 mb-8">
-              When you partner with Chaotic Jack, we handle the heavy lifting — so you can focus on what you do best. From traffic to conversions and revenue, we turn digital strategies into business wins.
-            </p>
-            <p className="text-lg font-kanit text-gray-700 mb-8">
-              Whether it's SEO, PPC, web design, social media, or email marketing, our strategies are crafted to drive growth. Here's a look at how we've helped some of the world's biggest brands thrive in the digital landscape.
-            </p>
+        <section className="relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/50 via-chaotic-blue/20 to-transparent z-0 h-64"></div>
+          <div className="container mx-auto px-4 md:px-6 mb-16 relative z-10 pt-8">
+            <motion.div 
+              className="max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-4xl md:text-5xl font-bold font-syne mb-6">
+                Success Stories
+              </h1>
+              <h2 className="text-2xl md:text-3xl font-syne font-medium mb-6">
+                Delivering Real, Measurable Results
+              </h2>
+              <p className="text-lg font-kanit text-gray-700 mb-8">
+                When you partner with Chaotic Jack, we handle the heavy lifting — so you can focus on what you do best. From traffic to conversions and revenue, we turn digital strategies into business wins.
+              </p>
+              <p className="text-lg font-kanit text-gray-700 mb-8">
+                Whether it's SEO, PPC, web design, social media, or email marketing, our strategies are crafted to drive growth. Here's a look at how we've helped some of the world's biggest brands thrive in the digital landscape.
+              </p>
+            </motion.div>
           </div>
         </section>
         
@@ -153,39 +169,23 @@ const Work = () => {
               <span className="text-chaotic-blue">🏆</span> Client Success Highlights
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {clients.map((client, index) => (
-                <div key={index} className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl bg-white hover:-translate-y-2">
-                  <div className="aspect-w-16 aspect-h-9 relative h-48">
-                    <img
-                      src={client.image}
-                      alt={client.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                    <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-                      <h3 className="text-xl font-syne font-bold mb-1">{client.name}</h3>
-                      <Badge className="bg-chaotic-blue text-white font-medium">{client.result}</Badge>
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {client.services.map((service, serviceIndex) => (
-                        <Badge key={serviceIndex} variant="outline" className="bg-gray-100">
-                          {service}
-                        </Badge>
-                      ))}
-                    </div>
-                    <Button 
-                      variant="link" 
-                      className="p-0 h-auto font-kanit text-chaotic-blue hover:text-chaotic-blue/80"
-                    >
-                      VIEW CASE STUDY <ArrowRight className="ml-1 h-3 w-3" />
-                    </Button>
-                  </div>
-                </div>
+                <motion.div key={index} variants={itemVariants}>
+                  <ProjectCard
+                    name={client.name}
+                    result={client.result}
+                    services={client.services}
+                    image={client.image}
+                  />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
             
             <div className="text-center">
               <Button 
@@ -212,26 +212,35 @@ const Work = () => {
                 <CarouselContent>
                   {testimonials.map((testimonial, index) => (
                     <CarouselItem key={index}>
-                      <div className="bg-white p-8 rounded-lg shadow-md">
-                        <div className="flex justify-center mb-4">
-                          <div className="flex text-yellow-400">
-                            {[...Array(testimonial.stars)].map((_, i) => (
-                              <Star key={i} className="h-5 w-5 fill-current" />
-                            ))}
+                      <div className="bg-white p-8 rounded-lg shadow-lg">
+                        <div className="flex flex-col md:flex-row items-center gap-6 mb-6">
+                          <div className="w-20 h-20 rounded-full overflow-hidden">
+                            <img 
+                              src={testimonial.image} 
+                              alt={testimonial.name} 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <div className="flex justify-center md:justify-start mb-2">
+                              <div className="flex text-yellow-400">
+                                {[...Array(testimonial.stars)].map((_, i) => (
+                                  <Star key={i} className="h-5 w-5 fill-current" />
+                                ))}
+                              </div>
+                            </div>
+                            <p className="font-bold text-center md:text-left">{testimonial.name}</p>
+                            <p className="text-sm text-gray-600 text-center md:text-left">{testimonial.position}, {testimonial.company}</p>
                           </div>
                         </div>
                         <p className="text-center text-lg font-kanit mb-6 italic">"{testimonial.quote}"</p>
-                        <div className="text-center">
-                          <p className="font-bold">{testimonial.name}</p>
-                          <p className="text-sm text-gray-600">{testimonial.position}, {testimonial.company}</p>
-                        </div>
                       </div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <div className="flex justify-center gap-2 mt-4">
-                  <CarouselPrevious className="static transform-none mx-2 rounded-full" />
-                  <CarouselNext className="static transform-none mx-2 rounded-full" />
+                <div className="flex justify-center gap-2 mt-6">
+                  <CarouselPrevious className="static transform-none mx-2 bg-white hover:bg-gray-100 shadow-md" />
+                  <CarouselNext className="static transform-none mx-2 bg-white hover:bg-gray-100 shadow-md" />
                 </div>
               </Carousel>
             </div>
@@ -239,26 +248,30 @@ const Work = () => {
             <div className="text-center mb-10">
               <h3 className="text-xl font-syne font-bold mb-6">Ready to Grow Your Brand?</h3>
               <p className="font-kanit mb-6">Let us show you what real digital performance looks like.</p>
-              <p className="font-kanit mb-4">📲 99583 21975</p>
+              <p className="font-kanit mb-6">📲 99583 21975</p>
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row justify-center gap-3 max-w-2xl mx-auto">
-                <Input
-                  type="email" 
-                  placeholder="Email" 
-                  className="rounded-none"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Input
-                  type="tel" 
-                  placeholder="Phone" 
-                  className="rounded-none"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
+                <div className="flex-1 bg-white p-3 rounded-[20px_20px_20px_0px] border-2 border-black shadow-lg transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02] overflow-hidden">
+                  <input
+                    type="email" 
+                    placeholder="Email" 
+                    className="w-full py-2 px-4 focus:outline-none font-kanit"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="flex-1 bg-white p-3 rounded-[20px_20px_20px_0px] border-2 border-black shadow-lg transition-all duration-300 hover:shadow-xl transform hover:scale-[1.02] overflow-hidden">
+                  <input
+                    type="tel" 
+                    placeholder="Phone" 
+                    className="w-full py-2 px-4 focus:outline-none font-kanit"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
                 <Button 
                   type="submit"
-                  className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit"
+                  className="rounded-none bg-black text-white border border-white hover:bg-white hover:text-black transition-colors font-kanit whitespace-nowrap"
                 >
                   GET A FREE AUDIT
                 </Button>
@@ -267,74 +280,13 @@ const Work = () => {
           </div>
         </section>
         
-        <section className="container mx-auto px-4 md:px-6 py-16">
-          <h2 className="text-2xl font-syne font-bold text-center mb-10">
-            <span className="text-chaotic-blue">⚙️</span> Performance Metrics That Matter
-          </h2>
-          
-          <div className="mb-12">
-            <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-              <h3 className="text-xl font-syne font-bold mb-4">Campaign Performance</h3>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={metricData}>
-                    <XAxis dataKey="month" />
-                    <YAxis yAxisId="left" orientation="left" />
-                    <YAxis yAxisId="right" orientation="right" />
-                    <Tooltip />
-                    <Legend />
-                    <Line
-                      yAxisId="left"
-                      type="monotone"
-                      dataKey="roas"
-                      name="ROAS (x)"
-                      stroke="#6366f1"
-                      strokeWidth={3}
-                      dot={{ r: 5 }}
-                      activeDot={{ r: 8 }}
-                    />
-                    <Line
-                      yAxisId="right"
-                      type="monotone"
-                      dataKey="leads"
-                      name="Leads Generated"
-                      stroke="#fbbf24"
-                      strokeWidth={3}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {metrics.map((metric, index) => (
-              <div key={index} className="bg-gray-50 p-6 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow border-t-4 border-chaotic-blue">
-                <p className="font-syne font-bold text-lg">{metric}</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="text-center">
-            <p className="font-kanit text-gray-700">
-              <span className="text-chaotic-blue">📌</span> Chaotic Jack — A Partner, Not Just a Vendor
-            </p>
-            <p className="text-sm font-kanit text-gray-600 mt-2">
-              © 2025 Chaotic Jack | Terms & Conditions | Privacy Policy
-            </p>
-            <div className="flex justify-center gap-4 mt-4">
-              <a href="#" className="text-gray-600 hover:text-chaotic-blue">Instagram</a>
-              <a href="#" className="text-gray-600 hover:text-chaotic-blue">Twitter</a>
-              <a href="#" className="text-gray-600 hover:text-chaotic-blue">Facebook</a>
-              <a href="#" className="text-gray-600 hover:text-chaotic-blue">YouTube</a>
-            </div>
-          </div>
-        </section>
+        <EnhancedPerformanceMetrics />
         
         <PartnerSection className="mt-10" />
       </main>
       
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

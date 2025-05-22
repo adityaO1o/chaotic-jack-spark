@@ -8,8 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
           <div>
             <div className="flex items-center mb-6">
-              <Award className="h-6 w-6 mr-3 text-chaotic-blue" />
-              <h3 className="text-xl font-syne font-bold">Awarded Marketing Agency</h3>
+              <h3 className="text-2xl font-bold font-syne">Chaotic Jack</h3>
             </div>
             
             <p className="font-kanit text-gray-300 mb-8 max-w-lg">
