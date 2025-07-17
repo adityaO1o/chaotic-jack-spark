@@ -12,10 +12,13 @@ import BlogSection from "@/components/BlogSection";
 import ConsultationSection from "@/components/ConsultationSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ScrollToTop from "@/components/ScrollToTop";
 import BiggestProjectsSection from "@/components/BiggestProjectsSection";
 import ProjectMetricsDashboard from "@/components/ProjectMetricsDashboard";
 import ClientLogoGallery from "@/components/ClientLogoGallery";
 import VideoShowcase from "@/components/VideoShowcase";
+import EnhancedCards from "@/components/EnhancedCards";
+import EnhancedPerformanceMetrics from "@/components/EnhancedPerformanceMetrics";
 import { motion } from 'framer-motion';
 
 const Index = () => {
@@ -30,9 +33,11 @@ const Index = () => {
       >
         <Hero />
         <PartnerSection />
+        <EnhancedPerformanceMetrics />
         <WhatWeDoSection />
         <BiggestProjectsSection />
         <ProjectMetricsDashboard />
+        <EnhancedCards />
         <ServicesSection />
         <VideoShowcase />
         <AboutSection />
@@ -46,6 +51,7 @@ const Index = () => {
       
       <Footer />
       <WhatsAppButton />
+      <ScrollToTop />
     </div>
   );
 };
