@@ -563,10 +563,16 @@ const Work = () => {
                             </Button>
                           </div>
 
-                          <button className="inline-flex items-center text-chaotic-blue hover:text-chaotic-blue/80 font-kanit text-sm font-medium">
+                          <a 
+                            href={client.url}
+                            target="_blank"
+                            rel="noopener noreferrer nofollow"
+                            className="inline-flex items-center text-chaotic-blue hover:text-chaotic-blue/80 font-kanit text-sm font-medium"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <ExternalLink className="mr-1 h-3 w-3" />
                             Click again to visit project →
-                          </button>
+                          </a>
                         </motion.div>
                       ) : (
                         <div className="p-5">
