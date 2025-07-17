@@ -12,6 +12,7 @@ import BlogSection from "@/components/BlogSection";
 import ConsultationSection from "@/components/ConsultationSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import BiggestProjectsSection from "@/components/BiggestProjectsSection";
 import { motion } from 'framer-motion';
 
 const Index = () => {
@@ -27,6 +28,7 @@ const Index = () => {
         <Hero />
         <PartnerSection />
         <WhatWeDoSection />
+        <BiggestProjectsSection />
         <ServicesSection />
         <AboutSection />
         <TechnologySection />

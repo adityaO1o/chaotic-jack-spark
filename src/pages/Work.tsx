@@ -1,8 +1,7 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star, ExternalLink, Calendar, Code, Users, Zap } from "lucide-react";
+import { ArrowRight, Star, ExternalLink, Calendar, Code, Users, Zap, Filter } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import PartnerSection from "@/components/PartnerSection";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -16,6 +15,7 @@ const Work = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [expandedProject, setExpandedProject] = useState<number | null>(null);
+  const [activeFilter, setActiveFilter] = useState('all');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +44,8 @@ const Work = () => {
       challenge: "Built a scalable e-commerce platform with advanced inventory management and seamless payment integration.",
       technologies: ["React", "Node.js", "MongoDB", "Stripe"],
       features: ["Advanced Search", "Wishlist Management", "Order Tracking", "Mobile Responsive"],
-      feedback: "HyGear Fashion transformed our online presence with exceptional design and functionality."
+      feedback: "HyGear Fashion transformed our online presence with exceptional design and functionality.",
+      category: "ecommerce"
     },
     {
       name: "Oxygen4India",
@@ -57,7 +58,8 @@ const Work = () => {
       challenge: "Developed a real-time platform to handle urgent healthcare requests with location-based services.",
       technologies: ["React", "Firebase", "Google Maps API", "PWA"],
       features: ["Real-time Tracking", "Emergency Alerts", "Location Services", "24/7 Support"],
-      feedback: "Oxygen4India's platform was crucial during the pandemic, providing life-saving connections."
+      feedback: "Oxygen4India's platform was crucial during the pandemic, providing life-saving connections.",
+      category: "healthcare"
     },
     {
       name: "Longfian India",
@@ -70,7 +72,8 @@ const Work = () => {
       challenge: "Created a professional corporate website showcasing complex medical products with technical specifications.",
       technologies: ["WordPress", "PHP", "MySQL", "jQuery"],
       features: ["Product Catalog", "Technical Specs", "Dealer Network", "Support Portal"],
-      feedback: "Longfian India's new website significantly improved our B2B client engagement and inquiries."
+      feedback: "Longfian India's new website significantly improved our B2B client engagement and inquiries.",
+      category: "corporate"
     },
     {
       name: "Goldline Intertrade",
@@ -83,7 +86,8 @@ const Work = () => {
       challenge: "Built a secure trading platform with real-time price updates and multi-currency support.",
       technologies: ["React", "Node.js", "PostgreSQL", "Socket.io"],
       features: ["Real-time Pricing", "Multi-currency", "Secure Trading", "Analytics Dashboard"],
-      feedback: "Goldline Intertrade's platform revolutionized our trading operations with excellent security features."
+      feedback: "Goldline Intertrade's platform revolutionized our trading operations with excellent security features.",
+      category: "ecommerce"
     },
     {
       name: "Roadies Koffe Houz",
@@ -96,7 +100,8 @@ const Work = () => {
       challenge: "Developed an engaging cafe website with seamless online ordering and table reservation system.",
       technologies: ["Next.js", "Tailwind CSS", "Supabase", "Vercel"],
       features: ["Online Menu", "Order System", "Table Booking", "Loyalty Program"],
-      feedback: "Roadies Koffe Houz website perfectly captures our brand essence and boosted online sales significantly."
+      feedback: "Roadies Koffe Houz website perfectly captures our brand essence and boosted online sales significantly.",
+      category: "restaurant"
     },
     {
       name: "Hamylten",
@@ -109,7 +114,8 @@ const Work = () => {
       challenge: "Created a sophisticated corporate identity with a modern website reflecting professionalism and expertise.",
       technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
       features: ["Service Portfolio", "Client Testimonials", "Blog System", "Contact Forms"],
-      feedback: "Hamylten's new digital presence elevated our brand image and attracted high-quality clients."
+      feedback: "Hamylten's new digital presence elevated our brand image and attracted high-quality clients.",
+      category: "corporate"
     },
     {
       name: "MDM Consulting",
@@ -122,7 +128,8 @@ const Work = () => {
       challenge: "Designed a professional platform showcasing complex consulting services with clear value propositions.",
       technologies: ["WordPress", "Custom PHP", "Bootstrap", "MySQL"],
       features: ["Service Showcase", "Case Studies", "Resource Library", "Client Portal"],
-      feedback: "MDM Consulting's website effectively communicates our expertise and generates quality business inquiries."
+      feedback: "MDM Consulting's website effectively communicates our expertise and generates quality business inquiries.",
+      category: "corporate"
     },
     {
       name: "Vidflyy",
@@ -135,7 +142,8 @@ const Work = () => {
       challenge: "Built a scalable video platform with adaptive streaming and real-time user interactions.",
       technologies: ["React", "Node.js", "WebRTC", "AWS CloudFront"],
       features: ["HD Streaming", "Live Chat", "Content Management", "Analytics"],
-      feedback: "Vidflyy's platform delivers exceptional video quality and user experience beyond our expectations."
+      feedback: "Vidflyy's platform delivers exceptional video quality and user experience beyond our expectations.",
+      category: "technology"
     },
     {
       name: "Dukaan Steel",
@@ -148,7 +156,8 @@ const Work = () => {
       challenge: "Developed a robust B2B platform with complex pricing structures and bulk order management.",
       technologies: ["Next.js", "Prisma", "PostgreSQL", "Tailwind CSS"],
       features: ["Product Catalog", "Bulk Pricing", "Quote System", "Inventory Tracking"],
-      feedback: "Dukaan Steel's platform streamlined our B2B operations and improved customer relationships."
+      feedback: "Dukaan Steel's platform streamlined our B2B operations and improved customer relationships.",
+      category: "industrial"
     },
     {
       name: "KD Engineers",
@@ -161,7 +170,8 @@ const Work = () => {
       challenge: "Created a technical portfolio website showcasing complex engineering projects and capabilities.",
       technologies: ["WordPress", "Custom CSS", "PHP", "jQuery"],
       features: ["Project Gallery", "Service Details", "Team Profiles", "Contact System"],
-      feedback: "KD Engineers' website effectively showcases our technical expertise and attracts quality projects."
+      feedback: "KD Engineers' website effectively showcases our technical expertise and attracts quality projects.",
+      category: "corporate"
     },
     {
       name: "Innotech India",
@@ -174,7 +184,8 @@ const Work = () => {
       challenge: "Built a modern tech platform showcasing innovative solutions with interactive demos.",
       technologies: ["React", "TypeScript", "Node.js", "MongoDB"],
       features: ["Solution Demos", "Tech Stack", "Innovation Lab", "Client Portal"],
-      feedback: "Innotech India's platform perfectly represents our innovative approach and technical capabilities."
+      feedback: "Innotech India's platform perfectly represents our innovative approach and technical capabilities.",
+      category: "technology"
     },
     {
       name: "Naina Volt Energy",
@@ -187,7 +198,8 @@ const Work = () => {
       challenge: "Developed an educational platform promoting renewable energy with cost calculators and ROI tools.",
       technologies: ["Vue.js", "Express.js", "MySQL", "Chart.js"],
       features: ["Energy Calculator", "ROI Analysis", "Project Gallery", "Sustainability Metrics"],
-      feedback: "Naina Volt Energy's platform educates customers and significantly increased our solar installations."
+      feedback: "Naina Volt Energy's platform educates customers and significantly increased our solar installations.",
+      category: "technology"
     },
     {
       name: "Smart World Gems",
@@ -200,7 +212,8 @@ const Work = () => {
       challenge: "Created a luxury e-commerce experience with high-quality imagery and secure payment systems.",
       technologies: ["Shopify", "Liquid", "JavaScript", "CSS3"],
       features: ["HD Product Views", "Certification System", "Virtual Try-on", "Secure Checkout"],
-      feedback: "Smart World Gems' platform elegantly showcases our premium jewelry and boosted online luxury sales."
+      feedback: "Smart World Gems' platform elegantly showcases our premium jewelry and boosted online luxury sales.",
+      category: "ecommerce"
     },
     {
       name: "AS Precision",
@@ -213,7 +226,8 @@ const Work = () => {
       challenge: "Developed a technical showcase platform highlighting precision capabilities and quality standards.",
       technologies: ["React", "Node.js", "PostgreSQL", "D3.js"],
       features: ["Technical Specs", "Quality Certificates", "Capability Matrix", "Quote System"],
-      feedback: "AS Precision's website demonstrates our manufacturing excellence and increased B2B inquiries significantly."
+      feedback: "AS Precision's website demonstrates our manufacturing excellence and increased B2B inquiries significantly.",
+      category: "industrial"
     },
     {
       name: "Shimmer Farms",
@@ -226,7 +240,8 @@ const Work = () => {
       challenge: "Built a farm-to-table platform with fresh produce tracking and subscription management.",
       technologies: ["React", "Firebase", "Stripe", "Google Maps"],
       features: ["Fresh Tracking", "Subscription Box", "Farm Profiles", "Delivery Tracking"],
-      feedback: "Shimmer Farms' platform revolutionized our organic produce distribution and customer relationships."
+      feedback: "Shimmer Farms' platform revolutionized our organic produce distribution and customer relationships.",
+      category: "agriculture"
     },
     {
       name: "Eyeconic Optical",
@@ -239,9 +254,25 @@ const Work = () => {
       challenge: "Integrated virtual try-on technology with comprehensive eye care services and appointment booking.",
       technologies: ["React", "WebGL", "Node.js", "MySQL"],
       features: ["Virtual Try-on", "Eye Test Booking", "Prescription Upload", "Frame Finder"],
-      feedback: "Eyeconic Optical's virtual try-on feature transformed our customer experience and boosted online sales."
+      feedback: "Eyeconic Optical's virtual try-on feature transformed our customer experience and boosted online sales.",
+      category: "healthcare"
     }
   ];
+
+  const filters = [
+    { id: 'all', label: 'All Projects', count: clients.length },
+    { id: 'ecommerce', label: 'E-commerce', count: clients.filter(c => c.category === 'ecommerce').length },
+    { id: 'corporate', label: 'Corporate', count: clients.filter(c => c.category === 'corporate').length },
+    { id: 'technology', label: 'Technology', count: clients.filter(c => c.category === 'technology').length },
+    { id: 'healthcare', label: 'Healthcare', count: clients.filter(c => c.category === 'healthcare').length },
+    { id: 'industrial', label: 'Industrial', count: clients.filter(c => c.category === 'industrial').length },
+    { id: 'restaurant', label: 'Restaurant', count: clients.filter(c => c.category === 'restaurant').length },
+    { id: 'agriculture', label: 'Agriculture', count: clients.filter(c => c.category === 'agriculture').length },
+  ];
+
+  const filteredClients = activeFilter === 'all' 
+    ? clients 
+    : clients.filter(client => client.category === activeFilter);
 
   const testimonials = [
     {
@@ -333,14 +364,34 @@ const Work = () => {
               <span className="text-chaotic-blue">🏆</span> Client Success Highlights
             </h2>
             
+            {/* Filter Buttons */}
+            <div className="flex flex-wrap justify-center gap-3 mb-12">
+              {filters.map((filter) => (
+                <Button
+                  key={filter.id}
+                  variant={activeFilter === filter.id ? "default" : "outline"}
+                  onClick={() => setActiveFilter(filter.id)}
+                  className={`font-kanit ${
+                    activeFilter === filter.id
+                      ? "bg-chaotic-blue text-white hover:bg-chaotic-blue/90"
+                      : "border-chaotic-blue text-chaotic-blue hover:bg-chaotic-blue hover:text-white"
+                  }`}
+                >
+                  <Filter className="w-4 h-4 mr-2" />
+                  {filter.label} ({filter.count})
+                </Button>
+              ))}
+            </div>
+            
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
+              key={activeFilter} // Re-trigger animation when filter changes
             >
-              {clients.map((client, index) => (
-                <motion.div key={index} variants={itemVariants}>
+              {filteredClients.map((client, index) => (
+                <motion.div key={`${activeFilter}-${index}`} variants={itemVariants}>
                   <div 
                     className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500 bg-white hover:shadow-xl hover:-translate-y-2 cursor-pointer"
                     onClick={() => handleProjectClick(index, client.url)}
