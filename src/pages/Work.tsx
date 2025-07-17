@@ -1,21 +1,31 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star, ExternalLink, Calendar, Code, Users, Zap, Filter } from "lucide-react";
+import { ArrowRight, Star, ExternalLink, Calendar, Code, Users, Zap, Filter, Download, Video } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import PartnerSection from "@/components/PartnerSection";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import EnhancedPerformanceMetrics from "@/components/EnhancedPerformanceMetrics";
 import { motion } from "framer-motion";
+import ProjectSearch from "@/components/ProjectSearch";
+import { ProjectGridSkeleton } from "@/components/ProjectSkeletons";
+import ProjectTimeline from "@/components/ProjectTimeline";
+import ProjectMetricsDashboard from "@/components/ProjectMetricsDashboard";
+import ClientLogoGallery from "@/components/ClientLogoGallery";
+import InteractiveProjectMap from "@/components/InteractiveProjectMap";
+import VideoShowcase from "@/components/VideoShowcase";
 
 const Work = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [expandedProject, setExpandedProject] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,10 +34,8 @@ const Work = () => {
 
   const handleProjectClick = (index: number, projectUrl: string) => {
     if (expandedProject === index) {
-      // Second click - redirect to external link
       window.open(projectUrl, '_blank', 'noopener,noreferrer');
     } else {
-      // First click - show details
       setExpandedProject(index);
     }
   };
@@ -45,7 +53,13 @@ const Work = () => {
       technologies: ["React", "Node.js", "MongoDB", "Stripe"],
       features: ["Advanced Search", "Wishlist Management", "Order Tracking", "Mobile Responsive"],
       feedback: "HyGear Fashion transformed our online presence with exceptional design and functionality.",
-      category: "ecommerce"
+      category: "ecommerce",
+      testimonial: {
+        quote: "Chaotic Jack delivered beyond our expectations. The platform is fast, reliable, and beautiful.",
+        author: "Priya Sharma, Founder"
+      },
+      caseStudyUrl: "/case-studies/hygear-fashion.pdf",
+      videoUrl: "https://www.youtube.com/watch?v=example1"
     },
     {
       name: "Oxygen4India",
@@ -59,7 +73,13 @@ const Work = () => {
       technologies: ["React", "Firebase", "Google Maps API", "PWA"],
       features: ["Real-time Tracking", "Emergency Alerts", "Location Services", "24/7 Support"],
       feedback: "Oxygen4India's platform was crucial during the pandemic, providing life-saving connections.",
-      category: "healthcare"
+      category: "healthcare",
+      testimonial: {
+        quote: "The platform saved countless lives during critical times. Excellent work by Chaotic Jack.",
+        author: "Dr. Rajesh Kumar, Medical Director"
+      },
+      caseStudyUrl: "/case-studies/oxygen4india.pdf",
+      videoUrl: "https://www.youtube.com/watch?v=example2"
     },
     {
       name: "Longfian India",
@@ -259,6 +279,38 @@ const Work = () => {
     }
   ];
 
+  const allTechnologies = useMemo(() => {
+    const techs = new Set<string>();
+    clients.forEach(client => {
+      client.technologies.forEach(tech => techs.add(tech));
+    });
+    return Array.from(techs).sort();
+  }, []);
+
+  const filteredClients = useMemo(() => {
+    let filtered = clients;
+
+    if (activeFilter !== 'all') {
+      filtered = filtered.filter(client => client.category === activeFilter);
+    }
+
+    if (searchQuery) {
+      filtered = filtered.filter(client => 
+        client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.technologies.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+    }
+
+    if (selectedTechnologies.length > 0) {
+      filtered = filtered.filter(client =>
+        selectedTechnologies.some(tech => client.technologies.includes(tech))
+      );
+    }
+
+    return filtered;
+  }, [activeFilter, searchQuery, selectedTechnologies]);
+
   const filters = [
     { id: 'all', label: 'All Projects', count: clients.length },
     { id: 'ecommerce', label: 'E-commerce', count: clients.filter(c => c.category === 'ecommerce').length },
@@ -269,10 +321,6 @@ const Work = () => {
     { id: 'restaurant', label: 'Restaurant', count: clients.filter(c => c.category === 'restaurant').length },
     { id: 'agriculture', label: 'Agriculture', count: clients.filter(c => c.category === 'agriculture').length },
   ];
-
-  const filteredClients = activeFilter === 'all' 
-    ? clients 
-    : clients.filter(client => client.category === activeFilter);
 
   const testimonials = [
     {
@@ -328,6 +376,17 @@ const Work = () => {
     }
   };
 
+  const handleFilterChange = (filterId: string) => {
+    setIsLoading(true);
+    setActiveFilter(filterId);
+    setExpandedProject(null);
+    setTimeout(() => setIsLoading(false), 500);
+  };
+
+  const handleCaseStudyDownload = (caseStudyUrl: string, projectName: string) => {
+    console.log(`Downloading case study for ${projectName}`);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -357,6 +416,8 @@ const Work = () => {
             </motion.div>
           </div>
         </section>
+
+        <ProjectMetricsDashboard />
         
         <section className="bg-gray-50 py-16">
           <div className="container mx-auto px-4 md:px-6">
@@ -364,13 +425,19 @@ const Work = () => {
               <span className="text-chaotic-blue">🏆</span> Client Success Highlights
             </h2>
             
-            {/* Filter Buttons */}
+            <ProjectSearch
+              onSearch={setSearchQuery}
+              onTechnologyFilter={setSelectedTechnologies}
+              selectedTechnologies={selectedTechnologies}
+              availableTechnologies={allTechnologies}
+            />
+            
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               {filters.map((filter) => (
                 <Button
                   key={filter.id}
                   variant={activeFilter === filter.id ? "default" : "outline"}
-                  onClick={() => setActiveFilter(filter.id)}
+                  onClick={() => handleFilterChange(filter.id)}
                   className={`font-kanit ${
                     activeFilter === filter.id
                       ? "bg-chaotic-blue text-white hover:bg-chaotic-blue/90"
@@ -383,115 +450,146 @@ const Work = () => {
               ))}
             </div>
             
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              key={activeFilter} // Re-trigger animation when filter changes
-            >
-              {filteredClients.map((client, index) => (
-                <motion.div key={`${activeFilter}-${index}`} variants={itemVariants}>
-                  <div 
-                    className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500 bg-white hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-                    onClick={() => handleProjectClick(index, client.url)}
-                  >
-                    <div className="aspect-w-16 aspect-h-9 relative h-48">
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500"></div>
-                      <img
-                        src={client.image}
-                        alt={client.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                      <div className="absolute inset-x-0 bottom-0 p-4 transform transition-transform duration-500 group-hover:translate-y-0">
-                        <h3 className="text-xl font-syne font-bold mb-1 text-white">{client.name}</h3>
-                        <div className="inline-block bg-chaotic-blue text-white text-sm font-medium px-2 py-1 rounded-sm">
-                          {client.result}
+            {isLoading ? (
+              <ProjectGridSkeleton />
+            ) : (
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                key={`${activeFilter}-${searchQuery}-${selectedTechnologies.join(',')}`}
+              >
+                {filteredClients.map((client, index) => (
+                  <motion.div key={`${activeFilter}-${index}`} variants={itemVariants}>
+                    <div 
+                      className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-500 bg-white hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+                      onClick={() => handleProjectClick(index, client.url)}
+                    >
+                      <div className="aspect-w-16 aspect-h-9 relative h-48">
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500"></div>
+                        <img
+                          src={client.image}
+                          alt={client.name}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div className="absolute inset-x-0 bottom-0 p-4 transform transition-transform duration-500 group-hover:translate-y-0">
+                          <h3 className="text-xl font-syne font-bold mb-1 text-white">{client.name}</h3>
+                          <div className="inline-block bg-chaotic-blue text-white text-sm font-medium px-2 py-1 rounded-sm">
+                            {client.result}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    {expandedProject === index ? (
-                      <motion.div 
-                        className="p-5 border-t-4 border-chaotic-blue"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <p className="text-gray-600 mb-4 font-kanit">{client.description}</p>
-                        
-                        <div className="mb-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Calendar className="h-4 w-4 text-chaotic-blue" />
-                            <span className="text-sm text-gray-500">Completed: {client.completed}</span>
+                      
+                      {expandedProject === index ? (
+                        <motion.div 
+                          className="p-5 border-t-4 border-chaotic-blue"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <p className="text-gray-600 mb-4 font-kanit">{client.description}</p>
+                          
+                          <div className="mb-4">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Calendar className="h-4 w-4 text-chaotic-blue" />
+                              <span className="text-sm text-gray-500">Completed: {client.completed}</span>
+                            </div>
+                            <p className="text-sm text-gray-600">{client.challenge}</p>
                           </div>
-                          <p className="text-sm text-gray-600">{client.challenge}</p>
-                        </div>
 
-                        <div className="mb-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Code className="h-4 w-4 text-chaotic-blue" />
-                            <span className="text-sm font-medium">Technologies Used</span>
+                          <div className="mb-4">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Code className="h-4 w-4 text-chaotic-blue" />
+                              <span className="text-sm font-medium">Technologies Used</span>
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              {client.technologies.map((tech, techIndex) => (
+                                <Badge key={techIndex} variant="outline" className="text-xs">
+                                  {tech}
+                                </Badge>
+                              ))}
+                            </div>
                           </div>
-                          <div className="flex flex-wrap gap-1">
-                            {client.technologies.map((tech, techIndex) => (
-                              <Badge key={techIndex} variant="outline" className="text-xs">
-                                {tech}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
 
-                        <div className="mb-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Zap className="h-4 w-4 text-chaotic-blue" />
-                            <span className="text-sm font-medium">Key Features</span>
+                          <div className="mb-4">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Zap className="h-4 w-4 text-chaotic-blue" />
+                              <span className="text-sm font-medium">Key Features</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
+                              {client.features.map((feature, featureIndex) => (
+                                <div key={featureIndex} className="flex items-center gap-1">
+                                  <div className="w-1 h-1 bg-chaotic-blue rounded-full"></div>
+                                  {feature}
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                          <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
-                            {client.features.map((feature, featureIndex) => (
-                              <div key={featureIndex} className="flex items-center gap-1">
-                                <div className="w-1 h-1 bg-chaotic-blue rounded-full"></div>
-                                {feature}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
 
-                        <div className="mb-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Users className="h-4 w-4 text-chaotic-blue" />
-                            <span className="text-sm font-medium">Client Feedback</span>
+                          <div className="mb-4">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Users className="h-4 w-4 text-chaotic-blue" />
+                              <span className="text-sm font-medium">Client Feedback</span>
+                            </div>
+                            <p className="text-sm text-gray-600 italic">"{client.feedback}"</p>
                           </div>
-                          <p className="text-sm text-gray-600 italic">"{client.feedback}"</p>
-                        </div>
 
-                        <button className="inline-flex items-center text-chaotic-blue hover:text-chaotic-blue/80 font-kanit text-sm font-medium">
-                          <ExternalLink className="mr-1 h-3 w-3" />
-                          Click again to visit project →
-                        </button>
-                      </motion.div>
-                    ) : (
-                      <div className="p-5">
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {client.services.map((service, serviceIndex) => (
-                            <span 
-                              key={serviceIndex} 
-                              className="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded-sm"
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCaseStudyDownload(client.caseStudyUrl, client.name);
+                              }}
+                              className="text-xs"
                             >
-                              {service}
-                            </span>
-                          ))}
+                              <Download className="w-3 h-3 mr-1" />
+                              Case Study
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.open(client.videoUrl, '_blank', 'noopener,noreferrer');
+                              }}
+                              className="text-xs"
+                            >
+                              <Video className="w-3 h-3 mr-1" />
+                              Demo Video
+                            </Button>
+                          </div>
+
+                          <button className="inline-flex items-center text-chaotic-blue hover:text-chaotic-blue/80 font-kanit text-sm font-medium">
+                            <ExternalLink className="mr-1 h-3 w-3" />
+                            Click again to visit project →
+                          </button>
+                        </motion.div>
+                      ) : (
+                        <div className="p-5">
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {client.services.map((service, serviceIndex) => (
+                              <span 
+                                key={serviceIndex} 
+                                className="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded-sm"
+                              >
+                                {service}
+                              </span>
+                            ))}
+                          </div>
+                          <button className="inline-flex items-center text-chaotic-blue hover:text-chaotic-blue/80 font-kanit text-sm">
+                            VIEW PROJECT DETAILS <ArrowRight className="ml-1 h-3 w-3" />
+                          </button>
                         </div>
-                        <button className="inline-flex items-center text-chaotic-blue hover:text-chaotic-blue/80 font-kanit text-sm">
-                          VIEW PROJECT DETAILS <ArrowRight className="ml-1 h-3 w-3" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
             
             <div className="text-center">
               <Button 
@@ -503,6 +601,14 @@ const Work = () => {
             </div>
           </div>
         </section>
+
+        <VideoShowcase />
+
+        <ProjectTimeline />
+
+        <InteractiveProjectMap />
+
+        <ClientLogoGallery />
         
         <section className="container mx-auto px-4 md:px-6 py-16">
           <div className="bg-chaotic-blue/10 p-8 md:p-12 rounded-sm">
