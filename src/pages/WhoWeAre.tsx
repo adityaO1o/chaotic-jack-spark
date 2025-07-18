@@ -6,7 +6,8 @@ import { ArrowRight, Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import PartnerSection from "@/components/PartnerSection";
-import { ValueCard, ServiceProviderCard } from "@/components/EnhancedCards";
+import ValueCard from "@/components/ValueCard";
+import ServiceProviderCard from "@/components/ServiceProviderCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { motion } from "framer-motion";
 
