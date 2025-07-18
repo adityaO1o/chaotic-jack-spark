@@ -124,4 +124,21 @@ const EnhancedCards = () => {
   );
 };
 
+// Additional components for WhoWeAre page
+export const ValueCard = ({ title, description, icon }: { title: string; description: string; icon: React.ReactNode }) => (
+  <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+    <div className="flex items-center mb-4">
+      <div className="mr-4">{icon}</div>
+      <h3 className="text-xl font-bold font-syne">{title}</h3>
+    </div>
+    <p className="text-gray-600 font-kanit leading-relaxed">{description}</p>
+  </div>
+);
+
+export const ServiceProviderCard = ({ title }: { title: string }) => (
+  <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 text-center">
+    <h4 className="font-syne font-semibold text-sm text-chaotic-blue">{title}</h4>
+  </div>
+);
+
 export default EnhancedCards;
